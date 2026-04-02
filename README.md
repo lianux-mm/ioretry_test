@@ -43,3 +43,8 @@ sudo ./ioretry.sh
 Running ioretry_noise on a 256-core x86 system restricted to a 1GB memory cgroup yields the following steady-state deltas.
 
 Comparing the vanilla kernel (Without VMA retry) vs. the kernel with the per-VMA lock retry patchset:
+| Case                | Miss/Drop (%) | RETRY_MMAP_DROP | RETRY_IO_MISS |
+| ------------------- | ------------- | --------------- | ------------- |
+| Without this series | 44.63         | 713266          | 318350        |
+| With this series    | 2.06          | 940250          | 19372         |
+(Miss/Drop decreases from roughly 44–49% to about 2% after the optimization,less is better)
