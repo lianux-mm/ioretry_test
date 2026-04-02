@@ -14,7 +14,7 @@ This repository provides a reproducible environment to observe this exact window
 - retry_mmap_drop: Counts retries where mmap_lock is dropped for I/O.
 
 
-2.ioretry_base.c: The core faulting workload. It spawns hundreds of threads continuously triggering filemap_fault() on a file.
+2.ioretry_base.c: The core faulting workload. It spawns 500 threads continuously triggering filemap_fault() on a file.
 
 3.ioretry_noise.c: The advanced reproducer. It runs the core faulting threads alongside unrelated background threads pinned to the same CPUs. This deliberately introduces scheduler contention (e.g., ~10us EEVDF slice), extending the lock-free window and making the original reclaim race significantly more severe.
 
