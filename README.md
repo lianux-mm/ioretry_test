@@ -4,7 +4,7 @@ A stress testing suite designed to reproduce and quantify the mmap_lock retry in
 # Background
 In the major fault path, when using mmap_lock, the lock is dropped while I/O is in flight. If the faulting task is delayed (e.g., due to CPU contention) before it can re-acquire the lock, the newly fetched folios can be aggressively evicted by LRU reclaim. Consequently, the completed I/O work is lost, forcing the task to retry the fault and severely amplifying latency.
 
-This repository provides a reproducible environment to observe this exact window between I/O completion and lock reacquisition, simulating a scenario where thousands of threads batter the storage re-reading data due to continuous reclaim.
+This repository provides a reproducible environment to observe this exact window between I/O completion and lock reacquisition, simulating a scenario where 500 threads batter the storage re-reading data due to continuous reclaim.
 
 ### Repository Structure
 1.vmstat_count.patch: A kernel patch that adds temporary instrumentation to /proc/vmstat to track the retry behavior:
