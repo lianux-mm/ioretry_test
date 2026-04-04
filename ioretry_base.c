@@ -17,10 +17,8 @@
 /* Stop flag: workers exit the loop after completing their current round */ 
 static _Atomic int g_stop = 0; 
 
-/* Default runtime in seconds */ 
-#ifndef RUN_SECONDS 
+/* Default runtime in seconds */
 #define RUN_SECONDS 600 
-#endif 
 
 struct worker_arg { 
         long id; 
