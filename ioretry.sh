@@ -5,18 +5,20 @@ val_drop_start=$(grep "retry_mmap_drop" /proc/vmstat | awk '{print $2}')
 val_miss_start=$(grep "retry_io_miss" /proc/vmstat | awk '{print $2}')
 
 echo "Starting stress test workload (Memory limit: 1G)..."
-# Run the benchmark in the background and terminate it after the timeout
-systemd-run --scope -p MemoryHigh=1G -p MemoryMax=1.2G -p MemorySwapMax=0 --unit=mmap-thrash-$$ ./mmap_lock &
-TEST_PID=$!
 
-# Run for 10 minutes (600 seconds)
-sleep 600
-
-# Cleanup the test environment
-systemctl stop mmap-thrash-$$.scope 2>/dev/null
-kill $TEST_PID 2>/dev/null
+# Run the workload in the foreground. 
+# The C program now handles its own internal timer (RUN_SECONDS) and 
+# graceful shutdown via atomic flags, so we no longer need to run it 
+# in the background and manually kill it.
+systemd-run --scope \
+  -p MemoryHigh=1G \
+  -p MemoryMax=1.2G \
+  -p MemorySwapMax=0 \
+  --unit=mmap-thrash-$$ \
+  ./mmap_lock
 
 echo "Test finished, calculating vmstat deltas..."
+
 val_drop_end=$(grep "retry_mmap_drop" /proc/vmstat | awk '{print $2}')
 val_miss_end=$(grep "retry_io_miss" /proc/vmstat | awk '{print $2}')
 
