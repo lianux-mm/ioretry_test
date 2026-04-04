@@ -15,7 +15,7 @@ systemd-run --scope \
   -p MemoryMax=1.2G \
   -p MemorySwapMax=0 \
   --unit=mmap-thrash-$$ \
-  ./mmap_lock
+  ./ioretry_base
 
 echo "Test finished, calculating vmstat deltas..."
 
