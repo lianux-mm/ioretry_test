@@ -32,7 +32,7 @@ gcc -O2 -pthread ioretry_noise.c -o ioretry_noise
 ```
 
 - 3. Run the Stress Test
-Execute the shell script as root (it requires systemd-run for cgroup management):
+Execute the shell script as root (it requires systemd-run for cgroup management. By default, the script runs ioretry_base.):
 
 ```
 sudo ./ioretry.sh
